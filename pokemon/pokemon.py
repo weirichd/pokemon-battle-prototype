@@ -1,3 +1,7 @@
+"""
+This module contains all the code for pokemon and moves.
+"""
+
 from typing import Callable, List
 
 
@@ -12,6 +16,8 @@ class Pokemon:
         self.move_names: List[str] = [moves[m].name for m in species['moves']]
         self.max_hp: int = species["stats"]["hp"]
         self.hp: int = self.max_hp
+        self.attack: int = species["stats"]['attack']
+        self.defense: int = species["stats"]['defence']
 
     def damage(self, amount):
         self.hp -= amount
@@ -38,7 +44,23 @@ class Move:
         return self.name
 
 
+class DamagingMove(Move):
+    """
+    A move that uses the normal damaging formula:
+
+    Damage = max(Base Damage + User Attack - Target Defence, 0)
+    """
+    def __init__(self, name: str, base_damage: int):
+        def do_damage(pokemon_user: Pokemon, pokemon_target: Pokemon):
+            damage_amount = base_damage + pokemon_user.attack - pokemon_target.defense
+            damage_amount = max(damage_amount, 0)
+
+            pokemon_target.damage(damage_amount)
+
+        super(DamagingMove, self).__init__(name, do_damage)
+
+
 moves = {
-    'thunder_shock': Move('Thunder Shock', lambda _, p2: p2.damage(4)),
-    'scratch': Move('Scratch', lambda _, p2: p2.damage(3))
+    'thunder_shock': DamagingMove('Thunder Shock', 4),
+    'scratch': DamagingMove('Scratch', 3)
 }

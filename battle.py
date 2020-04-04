@@ -22,8 +22,8 @@ if __name__ == "__main__":
         print(pokemon1)
 
         # Select the move
-        choice0 = int(input(f"{pokemon0.name}'s Move? (0-3): "))
-        choice1 = int(input(f"{pokemon1.name}'s Move? (0-3): "))
+        choice0 = int(input(f"{pokemon0.name}'s Move? "))
+        choice1 = int(input(f"{pokemon1.name}'s Move? "))
 
         move0 = moves[pokemon0.moves[choice0]]
         move1 = moves[pokemon1.moves[choice1]]

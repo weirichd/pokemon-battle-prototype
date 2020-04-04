@@ -2,7 +2,9 @@
   {
     "name": "Charmander",
     "stats": {
-      "hp": 30
+      "hp": 30,
+      "attack": 5,
+      "defence": 3
     },
     "moves": [
       "scratch"
@@ -11,7 +13,9 @@
   {
     "name": "Pikachu",
     "stats": {
-      "hp": 25
+      "hp": 25,
+      "attack": 7,
+      "defence": 1
     },
     "moves": [
       "thunder_shock"
