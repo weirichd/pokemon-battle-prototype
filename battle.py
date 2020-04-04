@@ -2,65 +2,40 @@
 Script which simulates a pokemon battle.
 """
 
+import json
+
+from pokemon.pokemon import Pokemon, moves
+
+
 # List of all the current pokemon types in the game
-pokemon = [
-    {
-        'name': 'Charmander',
-        'hp': 30,
-        'moves': ['Tackle'],
-    },
-    {
-        'name': 'Pikachu',
-        'hp': 25,
-        'moves': ['Thunder Shock'],
-    },
-]
-
-# The damage that each move does
-moves = {
-    'Tackle': 3,
-    'Thunder Shock': 4,
-}
+pokemon = json.load(open("pokemon_types.json"))
 
 
-def output_pokemon(p):
-    print(p['species']['name'])
-    print(f"    HP: {p['current hp']}/{p['species']['hp']}")
-
-    print('    Moves:')
-    for i, move in enumerate(p['species']['moves']):
-        print(f'     ({i}) {move}')
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     # The two pokemon battling
-    pokemon0 = {
-        'species': pokemon[0],
-        'current hp': pokemon[0]['hp'],
-    }
-
-    pokemon1 = {
-        'species': pokemon[1],
-        'current hp': pokemon[1]['hp'],
-    }
+    pokemon0 = Pokemon(pokemon[0])
+    pokemon1 = Pokemon(pokemon[1])
 
     # Keep battling until one pokemon faints
-    while pokemon0['current hp'] > 0 and pokemon1['current hp'] > 0:
-        output_pokemon(pokemon0)
-        output_pokemon(pokemon1)
+    while pokemon0.hp > 0 and pokemon1.hp > 0:
+        print(pokemon0)
+        print(pokemon1)
 
         # Select the move
-        move0 = int(input(f"{pokemon0['species']['name']}'s Move? (0-3): "))
-        move1 = int(input(f"{pokemon1['species']['name']}'s Move? (0-3): "))
+        choice0 = int(input(f"{pokemon0.name}'s Move? (0-3): "))
+        choice1 = int(input(f"{pokemon1.name}'s Move? (0-3): "))
 
-        print(f"{pokemon0['species']['name']} used {pokemon0['species']['moves'][move0]}!")
-        print(f"{pokemon1['species']['name']} used {pokemon1['species']['moves'][move1]}!")
+        move0 = moves[pokemon0.moves[choice0]]
+        move1 = moves[pokemon1.moves[choice1]]
 
-        # Do damage
-        pokemon1['current hp'] -= moves[pokemon0['species']['moves'][move0]]
-        pokemon0['current hp'] -= moves[pokemon1['species']['moves'][move1]]
+        # Use the moves
+        print(f"{pokemon0.name} used {move0}!")
+        move0(pokemon0, pokemon1)
 
-        if pokemon0['current hp'] <= 0:
-            print(f"{pokemon0['species']['name']} fainted!")
-        if pokemon1['current hp'] <= 0:
-            print(f"{pokemon1['species']['name']} fainted!")
+        print(f"{pokemon1.name} used {move1}!")
+        move1(pokemon1, pokemon0)
+
+        if pokemon0.hp <= 0:
+            print(f"{pokemon0.name} fainted!")
+        if pokemon1.hp <= 0:
+            print(f"{pokemon1.name} fainted!")
