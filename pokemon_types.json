@@ -7,7 +7,8 @@
       "defence": 3
     },
     "moves": [
-      "scratch"
+      "scratch",
+      "growl"
     ]
   },
   {
@@ -18,7 +19,8 @@
       "defence": 1
     },
     "moves": [
-      "thunder_shock"
+      "thunder_shock",
+      "tail_wag"
     ]
   }
 ]

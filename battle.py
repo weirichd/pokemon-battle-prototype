@@ -11,15 +11,19 @@ from pokemon.pokemon import Pokemon, moves
 pokemon = json.load(open("pokemon_types.json"))
 
 
+def print_scene(p0, p1):
+    print(pokemon0)
+    print(pokemon1)
+
+
 if __name__ == "__main__":
     # The two pokemon battling
-    pokemon0 = Pokemon(pokemon[0])
-    pokemon1 = Pokemon(pokemon[1])
+    pokemon0 = Pokemon(pokemon[0], 5)
+    pokemon1 = Pokemon(pokemon[1], 5)
 
     # Keep battling until one pokemon faints
     while pokemon0.hp > 0 and pokemon1.hp > 0:
-        print(pokemon0)
-        print(pokemon1)
+        print_scene(pokemon0, pokemon1)
 
         # Select the move
         choice0 = int(input(f"{pokemon0.name}'s Move? "))
