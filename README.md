@@ -11,6 +11,8 @@ Features implemented:
 - [ ] Swapping pokemon
 - [ ] Critical hits
 - [ ] Status Effects
+- [ ] 2 turn moves (dig, fly, hyper beam, etc.)
+
 
 ## Overview
 

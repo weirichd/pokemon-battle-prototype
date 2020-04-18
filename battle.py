@@ -11,9 +11,32 @@ from pokemon.pokemon import Pokemon, moves
 pokemon_types = json.load(open("pokemon_types.json"))
 
 
+def take_turn(p0, p1, move0_name, move1_name):
+    """
+    The main function that I am trying to expose.
+    """
+    move0 = moves[move0_name]
+    move1 = moves[move1_name]
+
+    # Use the moves
+    # TODO: Choose who goes first based on speed stat
+    print(f"{p0.name} used {move0}!")
+    move0(p0, p1)
+
+    print(f"{p1.name} used {move1}!")
+    move1(p1, p0)
+
+
 def print_scene(p0, p1):
-    print(pokemon0)
-    print(pokemon1)
+    print(p0)
+    print(p1)
+
+
+def choose_moves(p0, p1):
+    choice0 = int(input(f"{p0.name}'s Move? "))
+    choice1 = int(input(f"{p1.name}'s Move? "))
+
+    return pokemon0.moves[choice0],  pokemon1.moves[choice1]
 
 
 if __name__ == "__main__":
@@ -26,19 +49,9 @@ if __name__ == "__main__":
         print_scene(pokemon0, pokemon1)
 
         # Select the move
-        choice0 = int(input(f"{pokemon0.name}'s Move? "))
-        choice1 = int(input(f"{pokemon1.name}'s Move? "))
+        move0_name, move1_name = choose_moves(pokemon0, pokemon1)
 
-        move0 = moves[pokemon0.moves[choice0]]
-        move1 = moves[pokemon1.moves[choice1]]
-
-        # Use the moves
-        # TODO: Choose who goes first based on speed stat
-        print(f"{pokemon0.name} used {move0}!")
-        move0(pokemon0, pokemon1)
-
-        print(f"{pokemon1.name} used {move1}!")
-        move1(pokemon1, pokemon0)
+        take_turn(pokemon0, pokemon1, move0_name, move1_name)
 
         # TODO: Don't let both pokemon faint on the same turn (unless self destruct is used I guess...)
         if pokemon0.hp <= 0:
