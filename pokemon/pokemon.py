@@ -7,7 +7,7 @@ from typing import Callable, List, Dict
 
 # This dict contains the multipliers for stats when they are raised or lowered
 # Source: https://www.dragonflycave.com/mechanics/stat-stages
-stat_level_multipliers: Dict[int, float] = {
+STAT_LEVEL_MULTIPLIERS: Dict[int, float] = {
     -6: 0.25,
     -5: 0.28,
     -4: 0.33,
@@ -35,38 +35,53 @@ class Pokemon:
 
         # Moves
         self.moves: List[str] = species["moves"]
-        self.move_names: List[str] = [moves[m].name for m in species["moves"]]
+        self.move_names: List[str] = [MOVES[m].name for m in species["moves"]]
 
         # Base stats for this pokemon
         self.base_hp: int = species["stats"]["hp"]
         self.base_attack: int = species["stats"]["attack"]
         self.base_defense: int = species["stats"]["defence"]
+        self.base_speed: int = species['stats']['speed']
 
         # Current stats
         self.hp: int = self.base_hp
         self.attack: int = self.base_attack
         self.defense: int = self.base_defense
+        self.speed: int = self.base_speed
 
         # Current stat levels
         self.attack_level: int = 0
         self.defense_level: int = 0
+        self.speed_level: int = 0
 
     def damage(self, amount):
         """Lower the pokemon's HP by amount"""
         self.hp -= amount
         self.hp = max(self.hp, 0)
 
-    def change_stat_level(self, attack_level_change=0, defence_level_change=0):
+    def change_stat_level(
+            self,
+            attack_level_change=0,
+            defence_level_change=0,
+            speed_level_change=0,
+    ):
         """Apply a stat level change. Return False if nothing happened."""
         self.attack_level += attack_level_change
         self.defense_level += defence_level_change
+        self.speed_level += speed_level_change
 
         self.attack_level = max(min(self.attack_level, 6), -6)
         self.defense_level = max(min(self.defense_level, 6), -6)
+        self.speed_level = max(min(self.speed_level, 6), -6)
 
         # Recalculate stats
-        self.attack = int(self.base_attack * stat_level_multipliers[self.attack_level])
-        self.defense = int(self.base_defense * stat_level_multipliers[self.defense_level])
+        # TODO: Consider refactoring this??? I'm not sure b/c
+        #       There are only 6 stats and so even though this is kinda wet code,
+        #       there might not be a point in worrying about it since this way
+        #       is so straightforward...
+        self.attack = int(self.base_attack * STAT_LEVEL_MULTIPLIERS[self.attack_level])
+        self.defense = int(self.base_defense * STAT_LEVEL_MULTIPLIERS[self.defense_level])
+        self.speed = int(self.base_speed * STAT_LEVEL_MULTIPLIERS[self.speed_level])
 
     def __repr__(self):
         result = (
@@ -147,7 +162,7 @@ class OpponentStatAlterMove(Move):
 
 # TODO: Eventually move this out to another module
 
-moves = {
+MOVES = {
     "thunder_shock": DamagingMove("Thunder Shock", 4),
     "scratch": DamagingMove("Scratch", 3),
     "growl": OpponentStatAlterMove("Growl", 'attack', attack_level_change=-1),

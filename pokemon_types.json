@@ -4,7 +4,8 @@
     "stats": {
       "hp": 30,
       "attack": 5,
-      "defence": 3
+      "defence": 3,
+      "speed": 4
     },
     "moves": [
       "scratch",
@@ -16,7 +17,8 @@
     "stats": {
       "hp": 25,
       "attack": 7,
-      "defence": 1
+      "defence": 1,
+      "speed": 6
     },
     "moves": [
       "thunder_shock",
